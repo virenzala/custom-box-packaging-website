@@ -34,6 +34,7 @@
     }
   ],
   "env": {
+    "APP_KEY": "base64:8FRWV9sYkCgpm9uzGhGy9wk+kr5E+9VfLwGzKMp9iAQ=",
     "APP_ENV": "production",
     "APP_DEBUG": "true",
     "VIEW_COMPILED_PATH": "/tmp",
