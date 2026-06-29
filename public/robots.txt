@@ -1,2 +1,6 @@
 User-agent: *
-Disallow:
+Disallow: /admin
+Disallow: /portal
+Disallow: /checkout
+
+Sitemap: http://127.0.0.1:8000/sitemap.xml
