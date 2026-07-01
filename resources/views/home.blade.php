@@ -119,12 +119,16 @@
             @foreach($featuredProducts as $prod)
                 <div class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
                     <div style="height: 220px; background-color: #f1f3f0; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;">
-                        <!-- Rendering box wireframe layout -->
-                        <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.85;">
-                            <polygon points="50,25 80,40 50,55 20,40" fill="none" stroke="var(--color-primary)" stroke-width="1"/>
-                            <polygon points="20,40 50,55 50,80 20,65" fill="none" stroke="var(--color-primary)" stroke-width="1"/>
-                            <polygon points="50,55 80,40 80,65 50,80" fill="none" stroke="var(--color-primary)" stroke-width="1"/>
-                        </svg>
+                        @if($prod->image)
+                            <img src="{{ asset('images/products/' . $prod->image) }}" alt="{{ $prod->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                        @else
+                            <!-- Rendering box wireframe layout -->
+                            <svg width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.85;">
+                                <polygon points="50,25 80,40 50,55 20,40" fill="none" stroke="var(--color-primary)" stroke-width="1"/>
+                                <polygon points="20,40 50,55 50,80 20,65" fill="none" stroke="var(--color-primary)" stroke-width="1"/>
+                                <polygon points="50,55 80,40 80,65 50,80" fill="none" stroke="var(--color-primary)" stroke-width="1"/>
+                            </svg>
+                        @endif
                     </div>
                     <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
                         <div>
