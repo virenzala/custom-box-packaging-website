@@ -1,0 +1,16 @@
+[build]
+  publish = "public"
+  command = "npm run build"
+
+[build.environment]
+  PHP_VERSION = "8.2"
+
+[[redirects]]
+  from = "/build/*"
+  to = "/build/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.php"
+  status = 200
