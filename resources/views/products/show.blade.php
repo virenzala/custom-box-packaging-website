@@ -753,8 +753,8 @@ document.addEventListener('DOMContentLoaded', () => {
         dlHgtText.setAttribute('y', 47);
         dlHgtText.textContent = `${H} cm`;
 
-        // 8. Update Industrial Tech Specs Sheet
-        specMatName.textContent = material;
+        // 8. Update Industrial Tech Specs Sheet (safely check element existence)
+        if (specMatName) specMatName.textContent = material;
         
         let thicknessText = '';
         let gradeText = '';
@@ -776,13 +776,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 gradeText = 'Luxury Greyboard / Chipboard core';
                 break;
         }
-        specMatThick.textContent = thicknessText;
-        specMatGrade.textContent = gradeText;
+        if (specMatThick) specMatThick.textContent = thicknessText;
+        if (specMatGrade) specMatGrade.textContent = gradeText;
 
-        specMfgFoil.textContent = foilChecked ? 'Reflective Gold Foil Stamp' : 'None';
-        specMfgWindow.textContent = windowChecked ? 'PET Plastic Window Die-Cut' : 'None';
+        if (specMfgFoil) specMfgFoil.textContent = foilChecked ? 'Reflective Gold Foil Stamp' : 'None';
+        if (specMfgWindow) specMfgWindow.textContent = windowChecked ? 'PET Plastic Window Die-Cut' : 'None';
 
         // 8.5. Math Pricing Logic
+        const basePriceVal = basePrice || 0.45;
         const volume = L * W * H;
         let sizeFactor = 1.0;
         if (volume > 10000) sizeFactor = 2.5;
@@ -800,16 +801,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Finishes markup
         let finishCost = 0.0;
-        if (document.getElementById('printing_required').checked) finishCost += 0.08;
-        if (document.getElementById('lamination').checked) finishCost += 0.04;
-        if (document.getElementById('embossing').checked) finishCost += 0.06;
-        if (document.getElementById('foil_stamping').checked) finishCost += 0.12;
-        if (document.getElementById('window_cutout').checked) finishCost += 0.05;
+        const printEl = document.getElementById('printing_required');
+        const lamEl = document.getElementById('lamination');
+        const embEl = document.getElementById('embossing');
+        const foilEl = document.getElementById('foil_stamping');
+        const winEl = document.getElementById('window_cutout');
+
+        if (printEl && printEl.checked) finishCost += 0.08;
+        if (lamEl && lamEl.checked) finishCost += 0.04;
+        if (embEl && embEl.checked) finishCost += 0.06;
+        if (foilEl && foilEl.checked) finishCost += 0.12;
+        if (winEl && winEl.checked) finishCost += 0.05;
 
         // Calculate Unit price before discount
-        let unitPrice = (basePrice * sizeFactor) + materialMarkup + finishCost;
+        let unitPrice = (basePriceVal * sizeFactor) + materialMarkup + finishCost;
 
-        // Calculate Discount
+        // Calculate Volume Discount
         let discount = 0;
         if (qty >= 1000) discount = 25;
         else if (qty >= 500) discount = 15;
@@ -819,9 +826,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalPrice = unitPrice * qty;
 
         // 9. Update UI Price Outputs
-        priceUnitSpan.textContent = unitPrice.toFixed(2);
-        priceDiscountSpan.textContent = discount;
-        priceTotalSpan.textContent = totalPrice.toFixed(2);
+        if (priceUnitSpan) priceUnitSpan.textContent = unitPrice.toFixed(2);
+        if (priceDiscountSpan) priceDiscountSpan.textContent = discount;
+        if (priceTotalSpan) priceTotalSpan.textContent = totalPrice.toFixed(2);
     }
 
     function updateSVGGradient(gradId, color1, color2) {
