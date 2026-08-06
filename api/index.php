@@ -8,13 +8,12 @@ if ($isVercel) {
     $dbPath = $dbDir . '/database.sqlite';
     $sourceDb = __DIR__ . '/../database/database.sqlite';
 
-    // Copy the seeded database to the writable /tmp directory if it doesn't exist
+    // Copy the seeded database to the writable /tmp directory if missing or 0 bytes
     if (!file_exists($dbPath) || filesize($dbPath) === 0) {
-        if (file_exists($sourceDb)) {
+        if (file_exists($sourceDb) && filesize($sourceDb) > 0) {
             copy($sourceDb, $dbPath);
             chmod($dbPath, 0666);
         } else {
-            // Create a blank sqlite database if source is missing
             touch($dbPath);
             chmod($dbPath, 0666);
         }
